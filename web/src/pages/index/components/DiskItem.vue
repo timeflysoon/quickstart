@@ -220,8 +220,9 @@ const onMount = () => {
 }
 
 const getColor = (value: number) => {
-    if (value < 50) return "#2fc867"; // Green
-    if (value > 50 && value <= 75) return "#f97316"; // Orange
+    if (value < 60) return "#2fc867"; // Green
+    if (value < 75) return "#fdd835"; // Yellow
+    if (value < 90) return "#f97316"; // Orange
     return "#dc2626"; // Red
 }
 </script>
