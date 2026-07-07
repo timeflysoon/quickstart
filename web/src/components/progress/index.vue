@@ -1,6 +1,6 @@
 <template>
     <div class="progress">
-        <div class="progress-value" :class="`${value > 50}`" :style="{
+        <div class="progress-value" :style="{
             width: `${value}%`,
             backgroundColor: backgroundColor,
         }">
