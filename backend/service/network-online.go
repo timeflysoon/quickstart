@@ -189,6 +189,17 @@ func (checker *NetworkOnlineChecker) doCheck(cacheKey string, feedCheckURL strin
 			if err == nil {
 				status = NetworkOnlineOK
 			}
+			// ======== 修改点 1：.asc 签名文件缺失时，回退检测 base 索引文件本身 ========
+			if err != nil && strings.HasSuffix(feedCheckURL, ".asc") {
+				fallbackURL := strings.TrimSuffix(feedCheckURL, ".asc")
+				l.Debugf("Fallback checking feed URL: %v", fallbackURL)
+				cmdStr2 := fmt.Sprintf("curl --fail --show-error --max-time 5 -o /dev/null -s -L '%v'", fallbackURL)
+				_, err2 := utils.BatchOutputCmd(context.Background(), cmdStr2, 0)
+				if err2 == nil {
+					status = NetworkOnlineOK
+				}
+			}
+			// ======== 修改点 1 结束 ========
 		} else {
 			// If distFeedUrl not found in other OpenWRT distribute, mark network OK
 			status = NetworkOnlineOK
